@@ -1,11 +1,14 @@
 package app
 
-// Internal Package
-
+// Internal Modules
 import maji.{Maji, MajiHandler, MajiRepository}
 import maji.MajiProtocol._
 
+// Internal Package
 import pkg.db.Db
+
+import pkg.response.ErrResponse
+import pkg.response.ErrResponseProtocol._
 
 // External Package
 import akka.actor.typed.ActorSystem
@@ -37,14 +40,27 @@ object Main:
     val route: Route =
       concat(
         get {
-          pathPrefix("maji") {
-            // there might be no item for a given id
-            val maybeMaji: Future[List[Maji]] = Future {
-              majiHandler.findMaji()
-            }
-
-            onSuccess(maybeMaji) {
-              majiData => complete(majiData)
+          pathPrefix("maji" / IntNumber) { majiId =>
+            majiHandler.findOneMaji(majiId) match
+              case Some(result) => complete(StatusCodes.OK, result)
+              case None =>
+                val res = ErrResponse("not found")
+                complete(StatusCodes.BadRequest, res)
+          }
+        },
+        get {
+          path("maji") {
+            complete(majiHandler.findMaji())
+          }
+        },
+        post {
+          path("maji") {
+            entity(as[Maji]) { req =>
+              majiHandler.createMaji(req) match
+                case Some(result) => complete(StatusCodes.Created, result)
+                case None =>
+                  val res = ErrResponse("not found")
+                  complete(StatusCodes.BadRequest, res)
             }
           }
         },
