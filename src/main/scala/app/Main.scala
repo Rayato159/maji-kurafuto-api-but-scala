@@ -40,7 +40,7 @@ object Main:
           pathPrefix("maji") {
             // there might be no item for a given id
             val maybeMaji: Future[List[Maji]] = Future {
-              List.empty
+              majiHandler.findMaji()
             }
 
             onSuccess(maybeMaji) {

@@ -9,7 +9,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
   "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
   "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
-  "mysql" % "mysql-connector-java" % "5.1.12"
+  "mysql" % "mysql-connector-java" % "8.0.33"
 )
 
 lazy val root = (project in file("."))

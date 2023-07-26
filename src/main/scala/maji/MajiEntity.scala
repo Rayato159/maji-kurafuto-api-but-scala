@@ -4,10 +4,10 @@ import spray.json.*
 import spray.json.DefaultJsonProtocol.*
 
 case class Maji(
-               var id: Int = 0,
-               var title: String = "",
-               var description: String = "",
-               var damage: Int = 0,
+               var id: Int,
+               var title: String,
+               var description: String,
+               var damage: Int,
                )
 
 object MajiProtocol extends DefaultJsonProtocol {
