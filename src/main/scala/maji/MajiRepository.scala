@@ -1,3 +1,3 @@
-package maji.repository
+package maji
 
 case class MajiRepository()
