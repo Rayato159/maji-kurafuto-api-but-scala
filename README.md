@@ -42,6 +42,26 @@ CREATE DATABASE maji_kurafuto_mysql;
 USE maji_kurafuto_mysql;
 ```
 
+```bash
+-- Create the maji table
+CREATE TABLE maji (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description VARCHAR(255) NOT NULL DEFAULT '',
+    damage INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert sample data into the maji table
+INSERT INTO maji (title, description, damage) VALUES
+    ('Fireball', 'A basic fire spell that deals fire damage to a single target.', 50),
+    ('Frost Bolt', 'A basic frost spell that deals ice damage to a single target and may freeze it.', 40),
+    ('Lightning Strike', 'A basic lightning spell that deals electric damage to a single target and has a chance to stun.', 60),
+    ('Earth Spike', 'A basic earth spell that deals physical damage to a single target and may cause a knockback.', 45),
+    ('Healing Wave', 'A basic healing spell that restores health to a single target.', 30);
+```
+
 <p>Database Url</p>
 
 ```bash
