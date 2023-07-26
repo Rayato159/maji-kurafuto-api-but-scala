@@ -21,3 +21,16 @@ case class MajiHandler(majiRepository: MajiRepository):
           case Some(result) => Some(result)
           case None => None
       case None => None
+
+  def editMaji(req: Maji): Option[Maji] =
+    majiRepository.editMaji(req) match
+      case Some(err) => None
+      case None =>
+        majiRepository.findOneMaji(req.id) match
+          case Some(result) => Some(result)
+          case None => None
+
+  def deleteMaji(id: Int): Option[Exception] =
+    majiRepository.deleteMaji(id) match
+      case Some(e) => Some(e)
+      case None => None

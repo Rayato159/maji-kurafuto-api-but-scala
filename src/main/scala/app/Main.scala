@@ -64,6 +64,25 @@ object Main:
             }
           }
         },
+        patch {
+          pathPrefix("maji" / IntNumber) { majiId =>
+            entity(as[Maji]) { req =>
+              req.id = majiId
+              majiHandler.editMaji(req) match
+                case Some(result) => complete(StatusCodes.OK, result)
+                case None =>
+                  val res = ErrResponse("not found")
+                  complete(StatusCodes.BadRequest, res)
+            }
+          }
+        },
+        delete {
+          pathPrefix("maji" / IntNumber) { majiId =>
+            majiHandler.deleteMaji(majiId) match
+              case Some(result) => complete(StatusCodes.BadRequest, ErrResponse(result.getMessage))
+              case None => complete(StatusCodes.OK, ErrResponse(s"maji_id: ${majiId} has been deleted"))
+          }
+        },
       )
 
     val bindingFuture: Future[Http.ServerBinding] = Http().newServerAt("localhost", 8080).bind(route)

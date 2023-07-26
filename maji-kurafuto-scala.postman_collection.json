@@ -1,0 +1,411 @@
+{
+	"info": {
+		"_postman_id": "1763fd3c-34e4-45a2-a21c-395da8493d1b",
+		"name": "maji-kurafuto-scala",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18192292"
+	},
+	"item": [
+		{
+			"name": "find majis",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/maji",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"maji"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - ok",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/maji",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"maji"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "akka-http/10.5.2"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jul 2023 08:35:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "692"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"damage\": 50,\n        \"description\": \"A basic fire spell that deals fire damage to a single target.\",\n        \"id\": 1,\n        \"title\": \"Fireball\"\n    },\n    {\n        \"damage\": 40,\n        \"description\": \"A basic frost spell that deals ice damage to a single target and may freeze it.\",\n        \"id\": 2,\n        \"title\": \"Frost Bolt\"\n    },\n    {\n        \"damage\": 60,\n        \"description\": \"A basic lightning spell that deals electric damage to a single target and has a chance to stun.\",\n        \"id\": 3,\n        \"title\": \"Lightning Strike\"\n    },\n    {\n        \"damage\": 45,\n        \"description\": \"A basic earth spell that deals physical damage to a single target and may cause a knockback.\",\n        \"id\": 4,\n        \"title\": \"Earth Spike\"\n    },\n    {\n        \"damage\": 30,\n        \"description\": \"A basic healing spell that restores health to a single target.\",\n        \"id\": 5,\n        \"title\": \"Healing Wave\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "find one maji",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/maji/:maji_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"maji",
+						":maji_id"
+					],
+					"variable": [
+						{
+							"key": "maji_id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - ok",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/maji/:maji_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"maji",
+								":maji_id"
+							],
+							"variable": [
+								{
+									"key": "maji_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "akka-http/10.5.2"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jul 2023 10:41:54 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "117"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"damage\": 50,\n    \"description\": \"A basic fire spell that deals fire damage to a single target.\",\n    \"id\": 1,\n    \"title\": \"Fireball\"\n}"
+				}
+			]
+		},
+		{
+			"name": "add maji",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 0,\r\n    \"title\": \"Ligthing\",\r\n    \"description\": \"A basic lighting to target\",\r\n    \"damage\": 120\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/maji",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"maji"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "201 - created",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"title\": \"Ligthing\",\r\n    \"description\": \"A basic lighting to target\",\r\n    \"damage\": 120\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/maji",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"maji"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "akka-http/10.5.2"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jul 2023 11:15:54 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "83"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"damage\": 120,\n    \"description\": \"A basic lighting to target\",\n    \"id\": 6,\n    \"title\": \"Ligthing\"\n}"
+				}
+			]
+		},
+		{
+			"name": "edit maji",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 0,\r\n    \"title\": \"Ligthing God\",\r\n    \"description\": \"A basic lighting to target Dateup\",\r\n    \"damage\": 150\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/maji/:maji_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"maji",
+						":maji_id"
+					],
+					"variable": [
+						{
+							"key": "maji_id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - ok",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"title\": \"Ligthing God\",\r\n    \"description\": \"A basic lighting to target Dateup\",\r\n    \"damage\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/maji/:maji_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"maji",
+								":maji_id"
+							],
+							"variable": [
+								{
+									"key": "maji_id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "akka-http/10.5.2"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jul 2023 12:06:33 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "94"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"damage\": 150,\n    \"description\": \"A basic lighting to target Dateup\",\n    \"id\": 6,\n    \"title\": \"Ligthing God\"\n}"
+				}
+			]
+		},
+		{
+			"name": "delete maji",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/maji/:maji_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"maji",
+						":maji_id"
+					],
+					"variable": [
+						{
+							"key": "maji_id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - ok",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/maji/:maji_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"maji",
+								":maji_id"
+							],
+							"variable": [
+								{
+									"key": "maji_id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "akka-http/10.5.2"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jul 2023 12:17:18 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "41"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"maji_id: 6 has been deleted\"\n}"
+				}
+			]
+		}
+	]
+}

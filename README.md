@@ -67,3 +67,13 @@ INSERT INTO maji (title, description, damage) VALUES
 ```bash
 jdbc:mysql://localhost:3306/maji_kurafuto_db?characterEncoding=utf8
 ```
+
+<h2>🤯 API Lists</h2>
+<p>***All exmaple is in the Postman collection</p>
+<ul>
+    <li>GET /maji -> find one maji</li>
+    <li>GET /maji/:maji_id -> find majis</li>
+    <li>POST /maji -> create maji</li>
+    <li>PATCH /maji/:maji_id -> edit maji</li>
+    <li>DELETE /maji/:maji_id -> delete maji</li>
+</ul>

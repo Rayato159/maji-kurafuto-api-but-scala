@@ -44,7 +44,7 @@ case class MajiRepository():
     val db = Db.dbConnect()
 
     val query: String =
-      s"""
+      """
         |SELECT
         | id,
         | title,
@@ -86,7 +86,7 @@ case class MajiRepository():
     val db = Db.dbConnect()
 
     val query: String =
-      s"""
+      """
          |INSERT INTO maji (
          |  title,
          |  description,
@@ -119,3 +119,91 @@ case class MajiRepository():
       db.close()
 
     generatedId
+
+  def editMaji(req: Maji): Option[Exception] =
+    val db = Db.dbConnect()
+
+    var lastIndex: Int = 0
+    var valueToUpdate: List[Any] = List.empty
+    var colToUpdate: List[String] = List.empty
+
+    var query: String = "UPDATE maji SET\n"
+
+    if req.title != "" then
+      colToUpdate = colToUpdate :+ "title = ?"
+
+      valueToUpdate = valueToUpdate :+ req.title
+      lastIndex = colToUpdate.length
+
+    if req.description != "" then
+      colToUpdate = colToUpdate :+ "description = ?"
+
+      valueToUpdate = valueToUpdate :+ req.description
+      lastIndex = colToUpdate.length
+
+    if req.damage > 0 then
+      colToUpdate = colToUpdate :+ "damage = ?"
+
+      valueToUpdate = valueToUpdate :+ req.damage
+      lastIndex = colToUpdate.length
+
+    for
+      (col, index) <- colToUpdate.zipWithIndex
+    do
+      if index != lastIndex - 1 then
+        query += col + "," + "\n"
+      else
+        query += col + "\n"
+
+    query += "WHERE id = ?;"
+
+    var err: Option[Exception] = None
+
+    try
+      val preparedStatement: PreparedStatement = db.prepareStatement(query)
+
+      var lastIndexMoreStep: Int = 0
+      for
+        (value, index) <- valueToUpdate.zipWithIndex
+      do
+        val indexMoreStep: Int = index + 1
+        lastIndexMoreStep = indexMoreStep
+        print(s"${indexMoreStep}, ${value.toString}\n")
+        preparedStatement.setString(indexMoreStep, value.toString)
+
+      preparedStatement.setInt(lastIndexMoreStep+1, req.id)
+
+      preparedStatement.executeUpdate()
+
+      preparedStatement.close()
+    catch
+      case e: Exception =>
+        println(s"Error: ${e}")
+        err = Some(e)
+    finally
+      db.close()
+
+    err
+
+  def deleteMaji(id: Int): Option[Exception] =
+    val db = Db.dbConnect()
+
+    val query: String = "DELETE FROM maji WHERE id = ?;"
+
+    var err: Option[Exception] = None
+
+    try
+      val preparedStatement: PreparedStatement = db.prepareStatement(query)
+      preparedStatement.setInt(1, id)
+
+      preparedStatement.executeUpdate()
+      
+      preparedStatement.close()
+    catch
+      case e: Exception =>
+        println(s"Error: ${e.getMessage}")
+        err = Some(e)
+    finally
+      db.close()
+
+    err
