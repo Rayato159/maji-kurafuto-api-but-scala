@@ -3,7 +3,7 @@ package modules.maji
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-case class MajiHandler(majiRepository: MajiRepository):
+case class MajiUsecase(majiRepository: MajiRepository):
   def findMaji(): List[Maji] =
     majiRepository.findMaji()
 

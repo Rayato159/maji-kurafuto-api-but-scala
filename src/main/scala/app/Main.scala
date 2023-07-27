@@ -1,8 +1,11 @@
 package app
 
 // Internal Modules
-import modules.maji.{Maji, MajiHandler, MajiRepository}
+import modules.maji.{Maji, MajiUsecase, MajiRepository}
 import modules.maji.MajiProtocol._
+
+import modules.player.{Player, PlayerUsecase, PlayerRepository}
+import modules.player.PlayerProtocol._
 
 // Internal Package
 import pkg.db.Db
@@ -33,15 +36,21 @@ object Main:
   implicit val executionContext: ExecutionContext = system.executionContext
 
   // Modules
+  // Maji
   val majiRepository: MajiRepository = MajiRepository()
-  val majiHandler: MajiHandler = MajiHandler(majiRepository)
+  val majiUsecase: MajiUsecase = MajiUsecase(majiRepository)
+
+  // Player
+  val playerRepository: PlayerRepository = PlayerRepository()
+  val playerUsecase: PlayerUsecase = PlayerUsecase(playerRepository)
 
   def main(args: Array[String]): Unit =
-    val route: Route =
+    // Maji routes
+    val majiRoutes: Route =
       concat(
         get {
           pathPrefix("maji" / IntNumber) { majiId =>
-            majiHandler.findOneMaji(majiId) match
+            majiUsecase.findOneMaji(majiId) match
               case Some(result) => complete(StatusCodes.OK, result)
               case None =>
                 val res = ErrResponse("not found")
@@ -50,13 +59,13 @@ object Main:
         },
         get {
           path("maji") {
-            complete(majiHandler.findMaji())
+            complete(majiUsecase.findMaji())
           }
         },
         post {
           path("maji") {
             entity(as[Maji]) { req =>
-              majiHandler.createMaji(req) match
+              majiUsecase.createMaji(req) match
                 case Some(result) => complete(StatusCodes.Created, result)
                 case None =>
                   val res = ErrResponse("not found")
@@ -68,7 +77,7 @@ object Main:
           pathPrefix("maji" / IntNumber) { majiId =>
             entity(as[Maji]) { req =>
               req.id = majiId
-              majiHandler.editMaji(req) match
+              majiUsecase.editMaji(req) match
                 case Some(result) => complete(StatusCodes.OK, result)
                 case None =>
                   val res = ErrResponse("not found")
@@ -78,11 +87,28 @@ object Main:
         },
         delete {
           pathPrefix("maji" / IntNumber) { majiId =>
-            majiHandler.deleteMaji(majiId) match
+            majiUsecase.deleteMaji(majiId) match
               case Some(result) => complete(StatusCodes.BadRequest, ErrResponse(result.getMessage))
               case None => complete(StatusCodes.OK, ErrResponse(s"maji_id: ${majiId} has been deleted"))
           }
         },
+      )
+
+    val playerRoutes: Route =
+      concat(
+        get {
+          path("player") {
+            parameter("search") {
+              (searchQuery) => complete(playerUsecase.findPlayers(searchQuery))
+            }
+          }
+        },
+      )
+
+    // Main routes
+    val route: Route =
+      concat(
+        majiRoutes,
       )
 
     val bindingFuture: Future[Http.ServerBinding] = Http().newServerAt("localhost", 8080).bind(route)
