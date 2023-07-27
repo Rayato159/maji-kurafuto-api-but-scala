@@ -10,9 +10,7 @@ case class MajiHandler(majiRepository: MajiRepository):
     majiRepository.findMaji()
 
   def findOneMaji(id: Int): Option[Maji] =
-    majiRepository.findOneMaji(id) match
-      case Some(result) => Some(result)
-      case None => None
+    majiRepository.findOneMaji(id)
       
   def createMaji(req: Maji): Option[Maji] =
     majiRepository.createMaji(req) match
@@ -31,6 +29,4 @@ case class MajiHandler(majiRepository: MajiRepository):
           case None => None
 
   def deleteMaji(id: Int): Option[Exception] =
-    majiRepository.deleteMaji(id) match
-      case Some(e) => Some(e)
-      case None => None
+    majiRepository.deleteMaji(id)
