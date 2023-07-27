@@ -10,7 +10,7 @@ case class PlayerRepository():
   def findPlayers(searchQuery: String): List[Player] =
     val db = Db.elasticSearchConnect()
     val resp = db.execute {
-      search("players").query(if searchQuery == "" then "*" else "*" + searchQuery + "*")
+      search("player").query(if searchQuery == "" then "*" else "*" + searchQuery + "*")
     }.await
 
     val users: Seq[Player] = resp.result.to[Player]
@@ -18,7 +18,17 @@ case class PlayerRepository():
     users match
       case users => users.toList
       case null => List.empty
-  def findOnePlayer(id: String): Option[Player] = ???
+  def findOnePlayer(id: String): Option[Player] =
+    val db = Db.elasticSearchConnect()
+    val resp = db.execute {
+      search("player").matchQuery("id", id)
+    }.await
+
+    val players: Seq[Player] = resp.result.to[Player]
+
+    players match
+      case players => Some(players.head)
+      case null => None
   def createPlayer(player: Player): Option[String] = ???
   def updatePlayer(player: Player): Option[Player] = ???
   def deletePlayer(id: String): Option[String] = ???

@@ -48,13 +48,26 @@ object Main:
     // Maji routes
     val majiRoutes: Route =
       concat(
-        get {
-          pathPrefix("maji" / IntNumber) { majiId =>
+        pathPrefix("maji" / IntNumber) { majiId =>
+          get {
             majiUsecase.findOneMaji(majiId) match
               case Some(result) => complete(StatusCodes.OK, result)
               case None =>
                 val res = ErrResponse("not found")
                 complete(StatusCodes.BadRequest, res)
+          } ~
+          patch {
+            entity(as[Maji]) { req =>
+              req.id = majiId
+              majiUsecase.editMaji(req) match
+                case Some(result) => complete(StatusCodes.OK, result)
+                case None => complete(StatusCodes.BadRequest, ErrResponse("not found"))
+            }
+          } ~
+          delete {
+            majiUsecase.deleteMaji(majiId) match
+              case Some(result) => complete(StatusCodes.BadRequest, ErrResponse(result.getMessage))
+              case None => complete(StatusCodes.OK, ErrResponse(s"maji_id: ${majiId} has been deleted"))
           }
         },
         get {
@@ -73,34 +86,22 @@ object Main:
             }
           }
         },
-        patch {
-          pathPrefix("maji" / IntNumber) { majiId =>
-            entity(as[Maji]) { req =>
-              req.id = majiId
-              majiUsecase.editMaji(req) match
-                case Some(result) => complete(StatusCodes.OK, result)
-                case None =>
-                  val res = ErrResponse("not found")
-                  complete(StatusCodes.BadRequest, res)
-            }
-          }
-        },
-        delete {
-          pathPrefix("maji" / IntNumber) { majiId =>
-            majiUsecase.deleteMaji(majiId) match
-              case Some(result) => complete(StatusCodes.BadRequest, ErrResponse(result.getMessage))
-              case None => complete(StatusCodes.OK, ErrResponse(s"maji_id: ${majiId} has been deleted"))
-          }
-        },
       )
 
     val playerRoutes: Route =
       concat(
         get {
           path("player") {
-            parameter("search") {
+            parameter("search".withDefault("")) {
               (searchQuery) => complete(playerUsecase.findPlayers(searchQuery))
             }
+          }
+        },
+        get {
+          pathPrefix("player" / Segment) { playerId =>
+            playerUsecase.findOnePlayer(playerId) match
+              case Some(player) => complete(StatusCodes.OK, player)
+              case None => complete(StatusCodes.BadRequest, ErrResponse("not found"))
           }
         },
       )
@@ -109,6 +110,7 @@ object Main:
     val route: Route =
       concat(
         majiRoutes,
+        playerRoutes,
       )
 
     val bindingFuture: Future[Http.ServerBinding] = Http().newServerAt("localhost", 8080).bind(route)
