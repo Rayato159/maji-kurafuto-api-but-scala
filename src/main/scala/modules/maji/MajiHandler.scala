@@ -1,6 +1,4 @@
-package maji
-
-import maji.MajiRepository
+package modules.maji
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}

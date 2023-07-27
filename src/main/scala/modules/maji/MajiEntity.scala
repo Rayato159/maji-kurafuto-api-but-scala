@@ -1,4 +1,4 @@
-package maji
+package modules.maji
 
 import spray.json.*
 import spray.json.DefaultJsonProtocol.*

@@ -1,8 +1,8 @@
 package app
 
 // Internal Modules
-import maji.{Maji, MajiHandler, MajiRepository}
-import maji.MajiProtocol._
+import modules.maji.{Maji, MajiHandler, MajiRepository}
+import modules.maji.MajiProtocol._
 
 // Internal Package
 import pkg.db.Db

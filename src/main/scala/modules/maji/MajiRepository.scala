@@ -1,11 +1,11 @@
-package maji
+package modules.maji
 
 import pkg.db.Db
 
 import java.sql.{ResultSet, PreparedStatement, Statement}
 case class MajiRepository():
   def findMaji(): List[Maji] =
-    val db = Db.dbConnect()
+    val db = Db.mysqlConnect()
 
     val query: String =
       """
@@ -41,7 +41,7 @@ case class MajiRepository():
     majiList
 
   def findOneMaji(id: Int): Option[Maji] =
-    val db = Db.dbConnect()
+    val db = Db.mysqlConnect()
 
     val query: String =
       """
@@ -83,7 +83,7 @@ case class MajiRepository():
       Some(maji)
 
   def createMaji(req: Maji): Option[Int] =
-    val db = Db.dbConnect()
+    val db = Db.mysqlConnect()
 
     val query: String =
       """
@@ -121,7 +121,7 @@ case class MajiRepository():
     generatedId
 
   def editMaji(req: Maji): Option[Exception] =
-    val db = Db.dbConnect()
+    val db = Db.mysqlConnect()
 
     var lastIndex: Int = 0
     var valueToUpdate: List[Any] = List.empty
@@ -186,7 +186,7 @@ case class MajiRepository():
     err
 
   def deleteMaji(id: Int): Option[Exception] =
-    val db = Db.dbConnect()
+    val db = Db.mysqlConnect()
 
     val query: String = "DELETE FROM maji WHERE id = ?;"
 
