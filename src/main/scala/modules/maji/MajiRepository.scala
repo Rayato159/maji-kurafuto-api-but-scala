@@ -168,7 +168,6 @@ case class MajiRepository():
       do
         val indexMoreStep: Int = index + 1
         lastIndexMoreStep = indexMoreStep
-        print(s"${indexMoreStep}, ${value.toString}\n")
         preparedStatement.setString(indexMoreStep, value.toString)
 
       preparedStatement.setInt(lastIndexMoreStep+1, req.id)
